@@ -1,0 +1,4 @@
+We run 
+tsc --init 
+To create ts config file
+
