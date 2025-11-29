@@ -6,25 +6,15 @@ export const extractToken = (req: Request): string | null => {
     const token = authHeader.split(" ")[1];
     if (token) return token;
   }
+  return null;
+};
 
-  //   if (
-  //     req.headers["x-access-token"] &&
-  //     typeof req.headers["x-access-token"] === "string"
-  //   ) {
-  //     return req.headers["x-access-token"];
-  //   }
-
-  //   if (req.query.token && typeof req.query.token === "string") {
-  //     return req.query.token;
-  //   }
-
-  //   if (req.body?.token && typeof req.body.token === "string") {
-  //     return req.body.token;
-  //   }
-
-  //   if ((req as any).cookies?.token) {
-  //     return (req as any).cookies.token;
-  //   }
-
+export const extractRefreshToken = (req: Request): string | null => {
+  if (
+    req.headers["x-refresh-token"] &&
+    typeof req.headers["x-refresh-token"] === "string"
+  ) {
+    return req.headers["x-refresh-token"];
+  }
   return null;
 };

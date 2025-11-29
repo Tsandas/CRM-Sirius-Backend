@@ -6,7 +6,10 @@ import {
   decodeAccessToken,
   decodeRefreshToken,
 } from "../utils/Authorization/verifyToken";
-import { extractToken } from "../utils/Authorization/retrieveTokenFromRequest";
+import {
+  extractRefreshToken,
+  extractToken,
+} from "../utils/Authorization/retrieveTokenFromRequest";
 dotenv.config();
 
 export const verifyAccessToken = (
@@ -39,7 +42,7 @@ export const verifyRefreshToken = (
   res: Response,
   next: NextFunction
 ) => {
-  const token = extractToken(req);
+  const token = extractRefreshToken(req);
   if (!token) {
     return responseHandler(
       res,
