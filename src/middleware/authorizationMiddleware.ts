@@ -1,4 +1,3 @@
-import dotenv from "dotenv";
 import { responseHandler } from "../utils/responseHandler";
 import { RequestWithToken } from "../types/requests";
 import { NextFunction, Response } from "express";
@@ -10,7 +9,6 @@ import {
   extractRefreshToken,
   extractToken,
 } from "../utils/Authorization/retrieveTokenFromRequest";
-dotenv.config();
 
 export const verifyAccessToken = (
   req: RequestWithToken,

@@ -1,7 +1,5 @@
 import Redis from "ioredis";
-import dotenv from "dotenv";
 import { getEnvVar } from "../utils/getEnvVar";
-dotenv.config();
 
 export const redis = new Redis(getEnvVar("REDIS_URL"));
 async function testRedis() {

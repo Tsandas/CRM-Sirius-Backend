@@ -1,7 +1,5 @@
-import dotenv from "dotenv";
 import pool from "../config/db";
 import { Agent } from "../types/PostgresDB/agent";
-dotenv.config();
 
 export const agentExistsService = async (agentId: number, username: string) => {
   const query = `SELECT 1

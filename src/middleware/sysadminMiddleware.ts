@@ -1,8 +1,7 @@
-import dotenv from "dotenv";
 import { responseHandler } from "../utils/responseHandler";
 import { RequestWithToken } from "../types/requests";
 import { NextFunction, Response } from "express";
-dotenv.config();
+import { getEnvVar } from "../utils/getEnvVar";
 
 export const verifyRegistrationToken = (
   req: RequestWithToken,
@@ -20,7 +19,7 @@ export const verifyRegistrationToken = (
         "No registration token provided, authorization denied"
       );
     }
-    if (token === process.env.REGISTRATION_TOKEN) {
+    if (token === getEnvVar("REGISTRATION_TOKEN")) {
       next();
     } else {
       return responseHandler(res, 401, "Invalid Registration Token");

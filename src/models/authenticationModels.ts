@@ -1,5 +1,4 @@
 import bcrypt from "bcrypt";
-import dotenv from "dotenv";
 import { mapAgentRow } from "../utils/Mapping/mapAgent";
 import pool from "../config/db";
 import {
@@ -8,7 +7,6 @@ import {
 } from "../utils/Authentication/generateTokens";
 import { redis } from "../config/redis";
 
-dotenv.config();
 export const loginService = async (username: string, plainPassword: string) => {
   const query = `
     SELECT *

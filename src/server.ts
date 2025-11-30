@@ -1,5 +1,4 @@
-import express, { NextFunction, Request, Response } from "express";
-import dotenv from "dotenv";
+import express from "express";
 import rateLimit from "express-rate-limit";
 import cors from "cors";
 import errorHandling from "./middleware/error/errorHandler";
@@ -8,7 +7,6 @@ import testingRoutes from "./routes/testing.route";
 import sysadminRoutes from "./routes/sysadmin.route";
 import performance from "./routes/performace.route";
 
-dotenv.config();
 const app = express();
 app.use(cors());
 // app.use(cors()); www.example.com later restrict to specific domain

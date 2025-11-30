@@ -5,13 +5,7 @@ import { LoginBody } from "../types/auth";
 import { loginService } from "../models/authenticationModels";
 import { redis } from "../config/redis";
 import { generateAccessToken } from "../utils/Authentication/generateTokens";
-import dotenv from "dotenv";
-import {
-  extractRefreshToken,
-  extractToken,
-} from "../utils/Authorization/retrieveTokenFromRequest";
-
-dotenv.config();
+import { extractRefreshToken } from "../utils/Authorization/retrieveTokenFromRequest";
 
 export const authenticationLogin = async (
   req: TypedRequest<LoginBody>,

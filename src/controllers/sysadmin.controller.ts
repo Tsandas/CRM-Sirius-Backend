@@ -1,10 +1,8 @@
-import dotenv from "dotenv";
 import { responseHandler } from "../utils/responseHandler";
 import { RequestWithBody } from "../types/requests";
 import { Agent } from "../types/PostgresDB/agent";
 import { agentExistsService } from "../models/sysadminModel";
 import { NextFunction, Response } from "express";
-dotenv.config();
 
 export const authRegister = async (
   req: RequestWithBody<Agent>,
