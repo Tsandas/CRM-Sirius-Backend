@@ -1,8 +1,8 @@
 FROM node:20-alpine
-WORKDIR /app
+WORKDIR /usr/src/app
 COPY package*.json ./
-RUN npm install
+RUN npm install --production
 COPY . .
+RUN npm run build
 EXPOSE 5000
-ENV NODE_ENV=production
-CMD ["node", "./src/server.js"]
+CMD ["node", "dist/index.js"]

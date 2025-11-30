@@ -1,12 +1,21 @@
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import { responseHandler } from "../utils/responseHandler";
 import { verifyAccessToken } from "../middleware/authorizationMiddleware";
 import { authorizeRole } from "../middleware/roleAuthorizationMiddleware";
+import { AppError } from "../Error/appError";
 const router = express.Router();
 
 // Everyone can access
 router.get("/sayHello", (req: Request, res: Response) => {
   res.json({ message: "Hello World" });
+});
+
+router.get("/throwError", (req: Request, res: Response, next: NextFunction) => {
+  try {
+    throw new AppError("This is a test error", 500, "Custom message for error");
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.get("/getUsers", (req: Request, res: Response) => {

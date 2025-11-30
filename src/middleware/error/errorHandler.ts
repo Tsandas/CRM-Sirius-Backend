@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { AppError } from "../../Error/appError";
+import { getEnvVar } from "../../utils/getEnvVar";
 
 const errorHandling = (
   err: Error,
@@ -16,7 +17,9 @@ const errorHandling = (
     process.env.NODE_ENV !== "production"
       ? error.customMessage
       : "Internal Server Error";
-
+  if (getEnvVar("NODE_ENV") !== "production") {
+    console.error("Error: ", err);
+  }
   res.status(error.statusCode).json({
     success: false,
     error: {
