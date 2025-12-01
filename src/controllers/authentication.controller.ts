@@ -3,7 +3,7 @@ import { responseHandler } from "../utils/responseHandler";
 import { RequestWithToken, TypedRequest } from "../types/requests";
 import { LoginBody } from "../types/auth";
 import { loginService } from "../models/authenticationModels";
-import { redis } from "../config/redis";
+import { getRedis } from "../config/redis";
 import { generateAccessToken } from "../utils/Authentication/generateTokens";
 import { extractRefreshToken } from "../utils/Authorization/retrieveTokenFromRequest";
 
@@ -38,6 +38,7 @@ export const refreshToken = async (
         "Unauthorized: missing or invalid access token"
       );
     }
+    const redis = getRedis();
     const storedToken = await redis.get(
       `refresh_token:${req.jwtPayload.username}`
     );

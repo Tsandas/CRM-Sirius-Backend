@@ -1,6 +1,7 @@
 export function getEnvVar(name: string): string {
   const value = process.env[name];
   if (!value) {
+    console.error(`Environment variable ${name} is not defined`);
     throw new Error(`Environment variable ${name} is not defined`);
   }
   return value;

@@ -1,13 +1,24 @@
 import Redis from "ioredis";
 import { getEnvVar } from "../utils/getEnvVar";
 
-export const redis = new Redis(getEnvVar("REDIS_URL"));
-async function testRedis() {
+let redis: Redis | null = null;
+
+export function getRedis() {
+  if (!redis) {
+    redis = new Redis(getEnvVar("REDIS_URL"));
+  }
+  return redis;
+}
+
+export async function connectRedis() {
+  const client = getRedis();
   try {
-    await redis.set("test_key", "test_value");
-    console.log("Redics connected successfully");
+    await client.ping();
+    console.log("Connected to Redis");
   } catch (error) {
-    console.log("Error connecting to redis" + error);
+    console.error("Error connecting to Redis:", error);
+    throw error;
   }
 }
-testRedis();
+
+export default getRedis;

@@ -5,7 +5,7 @@ import {
   generateAccessToken,
   generateRefreshToken,
 } from "../utils/Authentication/generateTokens";
-import { redis } from "../config/redis";
+import { getRedis } from "../config/redis";
 
 export const loginService = async (username: string, plainPassword: string) => {
   const query = `
@@ -39,6 +39,7 @@ export const loginService = async (username: string, plainPassword: string) => {
 };
 
 const storeRefreshToken = async (username: string, refreshToken: string) => {
+  const redis = getRedis();
   await redis.set(
     `refresh_token:${username}`,
     refreshToken,
