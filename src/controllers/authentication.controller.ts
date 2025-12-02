@@ -3,7 +3,7 @@ import { responseHandler } from "../utils/responseHandler";
 import { RequestWithToken, TypedRequest } from "../types/requests";
 import { LoginBody } from "../types/auth";
 import { loginService } from "../models/authenticationModels";
-import { redis } from "../config/redis";
+import { getRedis } from "../config/redis";
 import { generateAccessToken } from "../utils/Authentication/generateTokens";
 import { extractRefreshToken } from "../utils/Authorization/retrieveTokenFromRequest";
 
@@ -18,7 +18,7 @@ export const authenticationLogin = async (
     if (!logInStatus) {
       return responseHandler(res, 404, "Invalid username or password", null);
     }
-    return responseHandler(res, 200, "Log in succesfull", logInStatus);
+    return responseHandler(res, 200, "Log in successful", logInStatus);
   } catch (error) {
     next(error);
   }
@@ -38,6 +38,7 @@ export const refreshToken = async (
         "Unauthorized: missing or invalid access token"
       );
     }
+    const redis = getRedis();
     const storedToken = await redis.get(
       `refresh_token:${req.jwtPayload.username}`
     );
@@ -45,7 +46,7 @@ export const refreshToken = async (
       return responseHandler(res, 401, "Invalid refresh token provided");
     }
     const accessToken = generateAccessToken(req.jwtPayload);
-    return responseHandler(res, 200, "Access token refreshed succesfully", {
+    return responseHandler(res, 200, "Access token refreshed successfully", {
       accessToken: accessToken,
     });
   } catch (error) {

@@ -11,12 +11,7 @@ const pool = new Pool({
   ssl: {
     rejectUnauthorized: true,
     ca: getEnvVar("CA"),
-  }
+  },
 });
-
-pool
-  .connect()
-  .then(() => console.log("Connected to PostgreSQL with SSL"))
-  .catch((err: Error) => console.error("Error connecting to PostgreSQL:", err));
 
 export default pool;
