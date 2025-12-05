@@ -16,7 +16,13 @@ const limiter = rateLimit({
   windowMs: 60 * 60 * 1000,
   message: "Too many requests from this IP. Try again in one hour.",
 });
-app.use("/api", limiter);
+app.use("/", limiter);
+app.get("/health", (req, res) => {
+  res.status(200).send("OK");
+});
+app.get("/", (req, res) => {
+  res.status(200).send("OK");
+});
 
 app.use("/api/sysadmin/", sysadminRoutes);
 app.use("/api/auth", authenticationRoutes);
