@@ -18,10 +18,10 @@ const limiter = rateLimit({
 });
 app.use("/", limiter);
 app.get("/health", (req, res) => {
-  res.status(200).send("OK");
+  res.json({ message: "Healthy" }).status(200).send("OK");
 });
 app.get("/", (req, res) => {
-  res.status(200).send("OK");
+  res.json({ message: "Healthy" }).status(200).send("OK");
 });
 
 app.use("/api/sysadmin/", sysadminRoutes);
