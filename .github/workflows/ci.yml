@@ -25,10 +25,10 @@ jobs:
     steps:
       - name: DNS check
         run: |
-          ping -c 1 api.koyeb.com || nslookup api.koyeb.com
+          ping -c 1 app.koyeb.com || nslookup app.koyeb.com
       - name: Trigger Koyeb deployment
         run: |
-          curl -f -X POST https://api.koyeb.com/v1/deployments \
+          curl -f -X POST https://app.koyeb.com/v1/deployments \
             -H "Authorization: Bearer ${{ secrets.KOYEB_API_TOKEN }}" \
             -H "Content-Type: application/json" \
             -d '{"service_id":"e5b287aa-b713-4627-86db-e18f16ac25a5"}'
