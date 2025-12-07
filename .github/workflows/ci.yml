@@ -25,7 +25,7 @@ jobs:
     steps:
       - name: Trigger Koyeb deployment
         run: |
-          curl -X POST https://app.koyeb.com/v1/deployments \
+          curl -f -X POST https://api.koyeb.com/v1/deployments \
             -H "Authorization: Bearer ${{ secrets.KOYEB_API_TOKEN }}" \
             -H "Content-Type: application/json" \
             -d '{"service_id":"e5b287aa-b713-4627-86db-e18f16ac25a5"}'
