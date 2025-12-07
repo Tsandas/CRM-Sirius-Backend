@@ -48,4 +48,8 @@ describe("authRegister", () => {
     await authRegister(req, res, next);
     expect(next).toHaveBeenCalledWith(err);
   });
+
+  it("fails on purpose", async () => {
+    expect(true).toBe(false);
+  });
 });
