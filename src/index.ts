@@ -17,8 +17,8 @@ async function bootstrap() {
 
     await await connectRedis();
 
-    app.listen(getEnvVar("SERVER_PORT"), () => {
-      console.log(`Server is running on port ${getEnvVar("SERVER_PORT")}`);
+    app.listen(getEnvVar("PORT"), () => {
+      console.log(`Server is running on port ${getEnvVar("PORT")}`);
     });
   } catch (err) {
     console.error("Failed to start application:", err);
