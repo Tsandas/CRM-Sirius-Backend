@@ -9,12 +9,12 @@ import performance from "./routes/performace.route";
 
 const app = express();
 app.set("trust proxy", 1);
-// app.use(cors());
-app.use(
-  cors({
-    origin: "https://api.sirius-crm.online",
-  })
-);
+app.use(cors());
+// app.use(
+//   cors({
+//     origin: "https://api.sirius-crm.online",
+//   })
+// );
 app.use(express.json({ limit: "5kb" }));
 const limiter = rateLimit({
   max: 100,
