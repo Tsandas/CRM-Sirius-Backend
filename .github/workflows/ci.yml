@@ -65,7 +65,7 @@ jobs:
       name: aws
     steps:
       - name: Deploy via SSH
-        uses: appdeploy/ssh-action@master
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
