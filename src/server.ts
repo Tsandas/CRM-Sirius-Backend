@@ -9,8 +9,12 @@ import performance from "./routes/performace.route";
 
 const app = express();
 app.set("trust proxy", 1);
-app.use(cors());
-// app.use(cors()); www.example.com later restrict to specific domain
+// app.use(cors());
+app.use(
+  cors({
+    origin: "https://api.sirius-crm.online",
+  })
+);
 app.use(express.json({ limit: "5kb" }));
 const limiter = rateLimit({
   max: 100,
@@ -19,10 +23,10 @@ const limiter = rateLimit({
 });
 app.use("/", limiter);
 app.get("/health", (req, res) => {
-  res.status(200).json({ status: "Healthy FROM KOYEB" });
+  res.status(200).json({ status: "Healthy" });
 });
 app.get("/", (req, res) => {
-  res.status(200).json({ status: "Healthy FROM KOYEB" });
+  res.status(200).json({ status: "Healthy" });
 });
 
 app.use("/api/sysadmin/", sysadminRoutes);
