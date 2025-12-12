@@ -101,5 +101,5 @@ jobs:
             aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 081009271230.dkr.ecr.eu-central-1.amazonaws.com
             docker stop sirius-crm-server || true
             docker rm sirius-crm-server || true
-            docker pull 424432388155.dkr.ecr.eu-central-1.amazonaws.com/sirius-crm-server:${{ github.sha }}
-            docker run --env-file .env -p 5000:5000 -d --name sirius-crm-server 424432388155.dkr.ecr.eu-central-1.amazonaws.com/sirius-crm-server:${{ github.sha }}
+            docker pull 081009271230.dkr.ecr.eu-central-1.amazonaws.com/sirius-crm-server:${{ github.sha }}
+            docker run --env-file .env -p 5000:5000 -d --name sirius-crm-server 081009271230.dkr.ecr.eu-central-1.amazonaws.com/sirius-crm-server:${{ github.sha }}
