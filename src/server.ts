@@ -26,7 +26,7 @@ app.get("/health", (req, res) => {
   res.status(200).json({ status: "Healthy" });
 });
 app.get("/", (req, res) => {
-  res.status(200).json({ status: "Healthy" });
+  res.status(200).json({ status: "Server is up" });
 });
 
 app.use("/api/sysadmin/", sysadminRoutes);
