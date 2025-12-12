@@ -11,6 +11,5 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install --production
 COPY --from=builder /usr/src/app/dist ./dist
-COPY --from=builder /usr/src/app/.env ./
 EXPOSE 5000
 CMD ["node", "dist/index.js"]
