@@ -45,7 +45,7 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
-  # Build-Image:
+  # Build-Push-Image-Dockerhub:
   #   needs: unit-tests
   #   if: ${{ needs.unit-tests.result == 'success' && github.ref == 'refs/heads/main' }}
   #   runs-on: ubuntu-latest
@@ -68,37 +68,38 @@ jobs:
   #           tsandas/sirius-crm-server:${{ github.sha }}
   #           tsandas/sirius-crm-server:latest
 
-  # deploy-koyeb:
-  #   needs: unit-tests
-  #   if: ${{ needs.unit-tests.result == 'success' && github.ref == 'refs/heads/main' }}
-  #   runs-on: ubuntu-latest
-  #   environment:
-  #     name: koyeb
-  #   env:
-  #     KOYEB_API_TOKEN: ${{ secrets.KOYEB_API_TOKEN }}
-  #   steps:
-  #     - name: Deploy
-  #       run: |
-  #         curl -fsSL https://raw.githubusercontent.com/koyeb/koyeb-cli/master/install.sh | sh
-  #         export PATH=$HOME/.koyeb/bin:$PATH
-  #         koyeb services redeploy sirius-crm/sirius-crm-server --token $KOYEB_API_TOKEN
-  #         koyeb services update sirius-crm/sirius-crm-server --git-sha ${{ github.sha }} --token $KOYEB_API_TOKEN
+  deploy-koyeb:
+    needs: unit-tests
+    if: ${{ needs.unit-tests.result == 'success' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    environment:
+      name: koyeb
+    env:
+      KOYEB_API_TOKEN: ${{ secrets.KOYEB_API_TOKEN }}
+    steps:
+      - name: Deploy
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/koyeb/koyeb-cli/master/install.sh | sh
+          export PATH=$HOME/.koyeb/bin:$PATH
+          koyeb services redeploy sirius-crm/sirius-crm-server --token $KOYEB_API_TOKEN
+          koyeb services update sirius-crm/sirius-crm-server --git-sha ${{ github.sha }} --token $KOYEB_API_TOKEN
 
-  # deploy-aws:
-  #   needs: Build-Image
-  #   if: ${{ needs.unit-tests.result == 'success' && github.ref == 'refs/heads/main' }}
-  #   runs-on: ubuntu-latest
-  #   environment:
-  #     name: aws
-  #   steps:
-  #     - name: Deploy via SSH
-  #       uses: appleboy/ssh-action@master
-  #       with:
-  #         host: ${{ secrets.EC2_HOST }}
-  #         username: ${{ secrets.EC2_USERNAME }}
-  #         key: ${{ secrets.EC2_PRIVATE_KEY }}
-  #         script: |
-  #           docker stop sirius-crm-server || true
-  #           docker rm sirius-crm-server || true
-  #           docker pull tsandas/sirius-crm-server:${{ github.sha }}
-  #           docker run --env-file .env -p 5000:5000 -d --name sirius-crm-server tsandas/sirius-crm-server:${{ github.sha }}
+  deploy-aws:
+    needs: Build-Image
+    if: ${{ needs.unit-tests.result == 'success' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    environment:
+      name: aws
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          script: |
+            aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 081009271230.dkr.ecr.eu-central-1.amazonaws.com
+            docker stop sirius-crm-server || true
+            docker rm sirius-crm-server || true
+            docker pull 424432388155.dkr.ecr.eu-central-1.amazonaws.com/sirius-crm-server:${{ github.sha }}
+            docker run --env-file .env -p 5000:5000 -d --name sirius-crm-server 424432388155.dkr.ecr.eu-central-1.amazonaws.com/sirius-crm-server:${{ github.sha }}
